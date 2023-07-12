@@ -21,13 +21,13 @@ int execute(char **command)
 	}
 	else if (pid < 0)
 	{
-		perro("Error forking\n");
+		perror("Error forking\n");
 		return (0);
 	}
 	else
 	{
 		do {
-			waitpid(pis, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		if (feof(stdin))
 		{
