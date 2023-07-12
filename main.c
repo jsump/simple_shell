@@ -11,7 +11,7 @@ int main(void)
 	pid_t pid;
 
 	buffer = malloc(sizeof(char) * MAX_LENGTH);
-	if (1buffer)
+	if (!buffer)
 	{
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
