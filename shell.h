@@ -8,11 +8,13 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <errno.h>
+#include <limits.h>
 
 #define BUFFER_SIZE 1024
 #define MAX_LENGTH 1024
 #define DELIMITERS " \t\r\n\a"
 #define MAX_INPUT_LENGTH 1024
+#define MAX_PATH_DIRS 64
 
 extern char **environ;
 
@@ -20,18 +22,30 @@ int _putchar(char c);
 
 void display_prompt(void);
 void print_environment(void);
-int execute(char **command);
+int execute(char **command, char **path_directories);
 char **split_string(char *str);
 
 void execute_command(char *command);
 void exit_shell(void);
 
-char *read_inout(void);
+char *read_input(FILE *input_stream);
 char **split_input(char *input);
 int is_builtin(char **args);
 void execute_builtin(char **args, char **env);
 void handle_error(char *msg);
 void print_env(char **env);
 
+void execute_cd(char *arg);
+void execute_pwd(void);
+void my_fork(void);
+
+void exec_function(char **args);
+void fork_handle(char **args, int status);
+
+int _getline(char **lp, size_t *n);
+
+char **get_path_directories(void);
+void free_path_directories(char **directories);
+void execute_logical_operations(char **commands);
 #endif
 

@@ -4,7 +4,7 @@
  */
 void print_environment(void)
 {
-	int i =0;
+	int i = 0;
 
 	while (environ[i])
 	{
