@@ -36,12 +36,19 @@ int main(int argc, char *argv[])
 	}
 	while (should_run)
 	{
-		display_prompt();
+
+
 
 		buffer = read_input(input_stream);
-		if (buffer == NULL)
+		if (buffer == NULL);
 		{
 			should_run = 0;
+			break;
+		}
+		if (strcmp(buffer, "exit") == 0)
+		{
+			should_run = 0;
+			free(buffer);
 			break;
 		}
 		if (strcmp(buffer, "") == 0)
