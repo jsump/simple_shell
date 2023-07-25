@@ -1,13 +1,15 @@
 #include "shell.h"
-/**
-* main - entry point
-* Return: Always 0
-*/
-void exec_function(char **args);
 
+void exec_function(char **args);
 void execute_setenv(char **args);
 void execute_unsetenv(char **args);
 
+/**
+ * main - entry point
+ * @argc: number of arguments
+ * @argv: array of strings containing the arguments
+ * Return: Always 0
+ */
 int main(int argc, char *argv[])
 {
 	char *buffer, *token, *args[MAX_LENGTH / 2 + 1];
@@ -34,9 +36,10 @@ int main(int argc, char *argv[])
 	}
 	while (should_run)
 	{
-		display_prompt();	
+		display_prompt();
 
-		if ((buffer = read_input(input_stream)) == NULL)
+		buffer = read_input(input_stream);
+		if (buffer == NULL)
 		{
 			should_run = 0;
 			break;
@@ -95,20 +98,20 @@ int main(int argc, char *argv[])
 		}
 	}
 	if (argc > 1)
+	{
+		if (fclose(input_stream) != 0)
 		{
-			if(fclose(input_stream) != 0)
-			{
-				perror("Error closing file");
-				exit(EXIT_FAILURE);
-			}
+			perror("Error closing file");
+			exit(EXIT_FAILURE);
 		}
+	}
 	free(buffer);
 	return (0);
 }
 /**
-* exec_function - handle arguemnts
-* @args: number of arguments
-*/
+ * exec_function - handle arguemnts
+ * @args: arrayof commands
+ */
 void exec_function(char **args)
 {
 	if (strcmp(args[0], "cd") == 0)
@@ -148,28 +151,30 @@ void exec_function(char **args)
 
 /**
  * execute_setenv - execute setenv command
+ * @args: number of arguments
  */
 void execute_setenv(char **args)
 {
-	if (args[1] == NULL || args[2] == NULL) {
+	if (args[1] == NULL || args[2] == NULL)
+	{
 		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
 		return;
 	}
-	if (setenv(args[1], args[2], 1) == -1) {
+	if (setenv(args[1], args[2], 1) == -1)
 		perror("setenv failed");
-	}
 }
 
 /**
  * execute_unsetenv - execute unsetenv command
+ * @args: number of arguments
  */
 void execute_unsetenv(char **args)
 {
-	if (args[1] == NULL) {
+	if (args[1] == NULL)
+	{
 		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
 		return;
 	}
-	if (unsetenv(args[1]) == -1) {
+	if (unsetenv(args[1]) == -1)
 		perror("unsetenv failed");
-	}
 }

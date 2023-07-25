@@ -6,11 +6,13 @@
 void execute_logical_operations(char **commands)
 {
 	int i = 0;
+
 	while (commands[i] != NULL)
 	{
 		int result;
 		char **args = split_input(commands[i]);
 		pid_t pid = fork();
+
 		if (pid == -1)
 		{
 			perror("fork failed");

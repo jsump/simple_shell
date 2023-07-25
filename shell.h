@@ -47,5 +47,11 @@ int _getline(char **lp, size_t *n);
 char **get_path_directories(void);
 void free_path_directories(char **directories);
 void execute_logical_operations(char **commands);
+
+
+int execute(char **command, char **path_directories);
+int execute_single_command(char **command);
+int execute_path_commands(char **command, char **path_directories);
+char *create_full_path(const char *directory, const char *command);
 #endif
 

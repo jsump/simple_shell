@@ -2,15 +2,15 @@
 
 #include <limits.h>
 
-/**
- * execute_cd - execute cd command
- * @arg: number of arguments
- * @prev_die: previous directory
- * Return: exit status
- */
+
 void get_curr_working_dir(char *cwd);
 void set_env_variables(char *prev_dir, char *cwd);
 
+/**
+ * execute_cd - execute cd command
+ * @arg: number of arguments
+ * Return: exit status
+ */
 void execute_cd(char *arg)
 {
 	char prev_dir[PATH_MAX];
@@ -55,7 +55,6 @@ void execute_cd(char *arg)
 	get_curr_working_dir(cwd);
 	set_env_variables(prev_dir, cwd);
 }
-
 /**
  * get_curr_working_dir - function to get current working directory
  * @cwd: variable to store working directory
@@ -69,13 +68,11 @@ void get_curr_working_dir(char *cwd)
 	}
 	cwd[strlen(cwd)] = '\0';
 }
-
 /**
  * set_env_variables - function to set environment variables for previous dir
  * @prev_dir: variable to store previous directory
  * @cwd: variable to store current working directory
  */
-
 void set_env_variables(char *prev_dir, char *cwd)
 {
 	if (setenv("OLDPWD", prev_dir, 1) == -1)

@@ -6,6 +6,7 @@
 void free_path_directories(char **directories)
 {
 	int i = 0;
+
 	while (directories[i] != NULL)
 	{
 		free(directories[i]);
