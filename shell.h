@@ -53,5 +53,8 @@ int execute(char **command, char **path_directories);
 int execute_single_command(char **command);
 int execute_path_commands(char **command, char **path_directories);
 char *create_full_path(const char *directory, const char *command);
+
+char **get_path_directories(void)
+
 #endif
 
