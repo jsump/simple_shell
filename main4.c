@@ -37,9 +37,15 @@ int main(int argc, char *argv[])
 	while (should_run)
 	{
 		display_prompt();
+<<<<<<< HEAD
 		
 		buffer = read_input(input_stream);
 		if (buffer == NULL);
+=======
+
+		buffer = read_input(input_stream);
+		if (buffer == NULL)
+>>>>>>> parent of 7ce7cb1... Exit command in main
 		{
 			should_run = 0;
 			break;
