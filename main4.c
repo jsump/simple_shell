@@ -36,9 +36,8 @@ int main(int argc, char *argv[])
 	}
 	while (should_run)
 	{
-
-
-
+		display_prompt();
+		
 		buffer = read_input(input_stream);
 		if (buffer == NULL);
 		{
