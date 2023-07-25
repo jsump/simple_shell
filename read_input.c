@@ -10,7 +10,7 @@ char *read_input(FILE *input_stream)
 	ssize_t bytes_read;
 	size_t buf_size = 0;
 
-	bytes_read = getline(&input, &buf_size, input_stream);
+	bytes_read = _getline(&input, &buf_size, input_stream);
 
 	if (bytes_read == -1)
 	{
