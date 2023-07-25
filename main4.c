@@ -44,11 +44,6 @@ int main(int argc, char *argv[])
 			should_run = 0;
 			break;
 		}
-		if (strcmp(buffer, "exit") == 0)
-		{
-			should_run = 0;
-			break;
-		}
 		if (strcmp(buffer, "") == 0)
 		{
 			break;
