@@ -3,6 +3,7 @@
 void exec_function(char **args);
 void execute_setenv(char **args);
 void execute_unsetenv(char **args);
+void execute_exit(void);
 
 /**
  * main - entry point
@@ -109,11 +110,24 @@ int main(int argc, char *argv[])
 	return (0);
 }
 /**
+ * execute_exit - function to exit shel
+ */
+void execute_exit(void)
+{
+	exit(EXIT_SUCCESS);
+}
+/**
  * exec_function - handle arguemnts
  * @args: arrayof commands
  */
 void exec_function(char **args)
 {
+	if (strcmp(args[0], "exit") == 0)
+	{
+		execute_exit();
+		exit(EXIT_SUCCESS);
+	}
+
 	if (strcmp(args[0], "cd") == 0)
 	{
 		if (args[1] != NULL)
