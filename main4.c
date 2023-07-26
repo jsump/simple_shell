@@ -52,9 +52,6 @@ int main(int argc, char *argv[])
 			free(buffer);
 			continue;
 		}
-		if (strcmp(args[0], "exit\n") == 0)
-			execute_exit();
-
 		token = strtok(buffer, " \n");
 		i = 0;
 
@@ -127,7 +124,6 @@ void exec_function(char **args)
 	if (strcmp(args[0], "exit") == 0)
 	{
 		execute_exit();
-		exit(EXIT_SUCCESS);
 	}
 	if (strcmp(args[0], "env") == 0)
 	{
