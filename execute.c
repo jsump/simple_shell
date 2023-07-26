@@ -66,7 +66,7 @@ int execute_path_commands(char **command, char **path_directris)
 			if (execve(full_path, command, environ) == -1)
 			{
 				free(full_path);
-				return (0);
+				exit(EXIT_FAILURE);;
 			}
 			return (1);
 		}
@@ -74,7 +74,7 @@ int execute_path_commands(char **command, char **path_directris)
 		{
 			perror("Error forking\n");
 			free(full_path);
-			return (0);
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
@@ -109,9 +109,10 @@ int execute(char **command, char **path_directories)
 	{
 		if (strcmp(command[i], "") != 0)
 		{
-			break;
+			i++;
+			continue;
 		}
-		i++;
+		
 	}
 
 	if (command[i] == NULL)

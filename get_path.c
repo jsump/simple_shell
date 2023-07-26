@@ -1,35 +1,45 @@
 #include "shell.h"
 /**
- * get_path_directories - get directory paths
- * Return: directory path
+ * get_full_path - search for the full path of a command,
+ * in the directories listed in the PATH
+ * @command: the command to search for
+ * Return: the full path of the command if found, otherwise NULL
  */
-char **get_path_directories(void)
+char *get_full_path(const char *command)
 {
 	char *path = getenv("PATH");
-	char **directories = malloc(MAX_LENGTH * sizeof(char *));
-	char *token;
-	int i = 0;
+	char *path_copy = strdup(path);
+	char *dir = strtok(path_copy, ":");
 
-	if (!directories)
+	if (path_copy == NULL)
 	{
-		perror("malloc failed");
+		perror("strdup failed");
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(path, ":");
-	while (token != NULL)
+	while (dir != NULL)
 	{
-		directories[i] = malloc(strlen(token) + 1);
-		if (!directories[i])
+		char *full_path = malloc(strlen(dir) + strlen(command) + 2);
+		if (full_path == NULL)
 		{
 			perror("malloc failed");
 			exit(EXIT_FAILURE);
 		}
-		strcpy(directories[i], token);
-		token = strtok(NULL, ":");
-		i++;
-	}
-	directories[i] = NULL;
 
-	return (directories);
+		strcpy(full_path, dir);
+		strcat(full_path, "/");
+		strcat(full_path, command);
+
+		if (access(full_path, X_OK) == 0)
+		{
+			free(path_copy);
+			return full_path;
+		}
+
+		free(full_path);
+		dir = strtok(NULL, ":");
+	}
+
+	free(path_copy);
+	return (NULL);
 }

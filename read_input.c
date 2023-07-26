@@ -14,9 +14,16 @@ char *read_input(FILE *input_stream)
 
 	if (bytes_read == -1)
 	{
-		free(input);
-		return (NULL);
+		if (feof(input_stream))
+		{
+			free(input);
+			return (NULL);
+		}
+		else
+		{
+			perror("Error reading input\n");
+			exit(EXIT_FAILURE);
+		}
 	}
-	input[strcspn(input, "\n")] = '\0';
 	return (input);
 }

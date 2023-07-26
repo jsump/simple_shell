@@ -1,5 +1,7 @@
 #include "shell.h"
 
+#define MAX_TOKENS 64
+void free_tokens(char **tokens);
 /**
  * split_input - Splits a string into tokens
  * @str: String to be split
@@ -8,38 +10,50 @@
  */
 char **split_input(char *str)
 {
-	int i, position = 0;
+	int position = 0;
 	char **tokens = malloc(MAX_LENGTH * sizeof(char *));
 	char *token;
 
 	if (!tokens)
 	{
-		perror("Error allocating memory");
+		perror("Error allocating memory\n");
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(str, DELIMITERS);
+	token = strtok(str, " \t\n");
 	while (token != NULL)
 	{
-		tokens[position] = malloc(strlen(token) + 1);
+		tokens[position] = strdup(token);
 		if (!tokens[position])
 		{
 			perror("Error allocating memory\n");
-			exit(EXIT_FAILURE);
-		}
-		if (strcpy(tokens[position], token) == NULL)
-		{
-			perror("Error copying token'n");
+			free_tokens(tokens);
 			exit(EXIT_FAILURE);
 		}
 		position++;
 
-		token = strtok(NULL, DELIMITERS);
+		if (position >= MAX_TOKENS)
+		{
+			fprintf(stderr, "too many arguments\n");
+			free_tokens(tokens);
+			break;
+		}
+		token = strtok(NULL, " \t\n");
 	}
 	tokens[position] = NULL;
-	for (i = 0; i < position; i ++)
+	return (tokens);
+}
+/**
+ * free_tokens - free tokens
+ * @tokens - tokens to be freed
+ */
+void free_tokens(char **tokens)
+{
+	int i;
+	
+	for (i = 0; tokens[i] != NULL; i++)
 	{
 		free(tokens[i]);
 	}
-	return (tokens);
+	free(tokens);
 }

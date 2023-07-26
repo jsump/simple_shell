@@ -24,9 +24,13 @@ int main(int argc, char *argv[])
 		input_stream = fopen(argv[1], "r");
 		if (!input_stream)
 		{
-			perror("Error opening input file");
+			perror("Error opening input file\n");
 			exit(EXIT_FAILURE);
 		}
+	}
+	else if (!isatty(fileno(stdin)))
+	{
+		input_stream = stdin;
 	}
 	while (should_run)
 	{
@@ -79,27 +83,28 @@ int main(int argc, char *argv[])
 		else
 		{
 			waitpid(pid, &status, 0);
-		}
 
-		i = 0;
-		while (args[i] != NULL)
+			i = 0;
+			while (args[i] != NULL)
+			{
+				free(args[i]);
+				i++;
+			}
+			free(buffer);
+			if (buffer[0] != '\0')
+			{
+				execute_logical_operations(args);
+			}
+		}
+		if (argc > 1)
 		{
-			free(args[i]);
-			i++;
+			if (fclose(input_stream) != 0)
+			{
+				perror("Error closing file");
+				exit(EXIT_FAILURE);
+			}
 		}
 		free(buffer);
-		if (buffer[0] != '\0')
-		{
-			execute_logical_operations(args);
-		}
-	}
-	if (argc > 1)
-	{
-		if (fclose(input_stream) != 0)
-		{
-			perror("Error closing file");
-			exit(EXIT_FAILURE);
-		}
 	}
 	free(buffer);
 	return (0);
@@ -119,7 +124,7 @@ void exec_function(char **args)
 {
 	if (strcmp(args[0], "exit") == 0)
 	{
-		execute_exit();
+		exit_shell();
 		exit(EXIT_SUCCESS);
 	}
 
@@ -153,12 +158,28 @@ void exec_function(char **args)
 		execute_pwd();
 		exit(EXIT_SUCCESS);
 	}
+	else if (execvp(args[0], args) == -1)
+	{
+		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+		exit(EXIT_FAILURE);
+	}
 	else
 	{
-		if (execvp(args[0], args) == -1)
+		char *path = get_full_path(args[0]);
+		if (path != NULL)
 		{
-			perror("execvp failed");
+			if (execve(path, args, environ) == -1)
+			{
+				perror("execve failed");
+				free(path);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			exit(EXIT_FAILURE);
+
 		}
 	}
 }
