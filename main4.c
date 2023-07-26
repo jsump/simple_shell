@@ -52,6 +52,9 @@ int main(int argc, char *argv[])
 			free(buffer);
 			continue;
 		}
+		if (strcmp(args[0], "exit\n") == 0)
+			execute_exit();
+
 		token = strtok(buffer, " \n");
 		i = 0;
 
@@ -68,8 +71,8 @@ int main(int argc, char *argv[])
 			i++;
 		}
 		args[i] = NULL;
-
 		pid = fork();
+
 		if (pid == -1)
 		{
 			perror("fork failed");
@@ -90,11 +93,11 @@ int main(int argc, char *argv[])
 				free(args[i]);
 				i++;
 			}
-			free(buffer);
 			if (buffer[0] != '\0')
 			{
 				execute_logical_operations(args);
 			}
+
 		}
 		if (argc > 1)
 		{
@@ -123,11 +126,10 @@ void exec_function(char **args)
 {
 	if (strcmp(args[0], "exit") == 0)
 	{
-		exit_shell();
+		execute_exit();
 		exit(EXIT_SUCCESS);
 	}
-
-	else if (strcmp(args[0], "env") == 0)
+	if (strcmp(args[0], "env") == 0)
 	{
 		print_environment();
 		exit(EXIT_SUCCESS);

@@ -128,11 +128,11 @@ int execute(char **command, char **path_directories)
 	}
 }
 /**
-* create_full_path - Create the full path for a given command and directory.
-* @directory: The directory to append.
-* @command: The command to append to the directory.
-* Return: The full path as a string.
-*/
+ * create_full_path - Create the full path for a given command and directory.
+ * @directory: The directory to append.
+ * @command: The command to append to the directory.
+ * Return: The full path as a string.
+ */
 char *create_full_path(const char *directory, const char *command)
 {
 	size_t len_dir, len_cmd;

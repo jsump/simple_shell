@@ -8,12 +8,14 @@ void print_environment(void)
 {
 	int i, count = 0;
 	char **envp;
-	char **env_vars = malloc(count * sizeof(char *));
+	char **env_vars;
 
 	for (envp = environ; *envp != NULL; envp++)
 	{
 		count++;
 	}
+
+	env_vars = malloc(count * sizeof(char *));
 	if (!env_vars)
 	{
 		perror("malloc failed");
