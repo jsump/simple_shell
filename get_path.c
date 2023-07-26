@@ -20,6 +20,7 @@ char *get_full_path(const char *command)
 	while (dir != NULL)
 	{
 		char *full_path = malloc(strlen(dir) + strlen(command) + 2);
+
 		if (full_path == NULL)
 		{
 			perror("malloc failed");
@@ -33,7 +34,7 @@ char *get_full_path(const char *command)
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path_copy);
-			return full_path;
+			return (full_path);
 		}
 
 		free(full_path);

@@ -9,25 +9,28 @@ void print_environment(void)
 	int i, count = 0;
 	char **envp;
 	char **env_vars = malloc(count * sizeof(char *));
-	for (envp = environ; *envp != NULL; envp++) {
+
+	for (envp = environ; *envp != NULL; envp++)
+	{
 		count++;
 	}
-
-	if (!env_vars) {
+	if (!env_vars)
+	{
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
 
-	for (i = 0, envp = environ; *envp != NULL; envp++, i++) {
+	for (i = 0, envp = environ; *envp != NULL; envp++, i++)
+	{
 		env_vars[i] = *envp;
 	}
 
 	qsort(env_vars, count, sizeof(char *), compare_env_vars);
 
-	for (i = 0; i < count; i++) {
+	for (i = 0; i < count; i++)
+	{
 		printf("%s\n", env_vars[i]);
 	}
-
 	free(env_vars);
 }
 /**

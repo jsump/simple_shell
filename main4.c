@@ -104,7 +104,6 @@ int main(int argc, char *argv[])
 				exit(EXIT_FAILURE);
 			}
 		}
-		free(buffer);
 	}
 	free(buffer);
 	return (0);
@@ -166,6 +165,7 @@ void exec_function(char **args)
 	else
 	{
 		char *path = get_full_path(args[0]);
+
 		if (path != NULL)
 		{
 			if (execve(path, args, environ) == -1)

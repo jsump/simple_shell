@@ -66,9 +66,8 @@ int execute_path_commands(char **command, char **path_directris)
 			if (execve(full_path, command, environ) == -1)
 			{
 				free(full_path);
-				exit(EXIT_FAILURE);;
+				exit(EXIT_FAILURE);
 			}
-			return (1);
 		}
 		else if (pid < 0)
 		{
@@ -112,7 +111,6 @@ int execute(char **command, char **path_directories)
 			i++;
 			continue;
 		}
-		
 	}
 
 	if (command[i] == NULL)
