@@ -8,7 +8,7 @@
  */
 char **split_input(char *str)
 {
-	int position = 0;
+	int i, position = 0;
 	char **tokens = malloc(MAX_LENGTH * sizeof(char *));
 	char *token;
 
@@ -37,5 +37,9 @@ char **split_input(char *str)
 		token = strtok(NULL, DELIMITERS);
 	}
 	tokens[position] = NULL;
+	for (i = 0; i < position; i ++)
+	{
+		free(tokens[i]);
+	}
 	return (tokens);
 }

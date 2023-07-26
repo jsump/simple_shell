@@ -24,20 +24,13 @@ int main(int argc, char *argv[])
 		input_stream = fopen(argv[1], "r");
 		if (!input_stream)
 		{
-			perror("Error opening inout file");
+			perror("Error opening input file");
 			exit(EXIT_FAILURE);
 		}
 	}
-
-	buffer = malloc(sizeof(char) * MAX_LENGTH);
-	if (!buffer)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
 	while (should_run)
 	{
-		display_prompt();
+
 
 		buffer = read_input(input_stream);
 		if (buffer == NULL)
@@ -47,10 +40,12 @@ int main(int argc, char *argv[])
 		}
 		if (strcmp(buffer, "") == 0)
 		{
-			break;
+			free(buffer);
+			continue;
 		}
 		if (buffer[0] == '#')
 		{
+			free(buffer);
 			continue;
 		}
 		token = strtok(buffer, " \n");
@@ -61,7 +56,7 @@ int main(int argc, char *argv[])
 			args[i] = malloc(strlen(token) + 1);
 			if (!args[i])
 			{
-				perror("malloc failes");
+				perror("malloc failed");
 				exit(EXIT_FAILURE);
 			}
 			strcpy(args[i], token);
@@ -128,7 +123,12 @@ void exec_function(char **args)
 		exit(EXIT_SUCCESS);
 	}
 
-	if (strcmp(args[0], "cd") == 0)
+	else if (strcmp(args[0], "env") == 0)
+	{
+		print_environment();
+		exit(EXIT_SUCCESS);
+	}
+	else if (strcmp(args[0], "cd") == 0)
 	{
 		if (args[1] != NULL)
 		{

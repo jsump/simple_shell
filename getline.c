@@ -6,7 +6,7 @@
  * @n: pointer to size_t variable to store the length of the output stream
  * Return: 1 on success, -1 if an error occurred, 0 on end of input
  */
-int _getline(char **lp, size_t *n)
+int own_getline(char **lp, size_t *n)
 {
 	static char buffer[BUFSIZ];
 	static int position;
