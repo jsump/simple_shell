@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <limits.h>
+#include <signal.h>
 
 #define BUFFER_SIZE 1024
 #define MAX_LENGTH 1024
@@ -26,7 +27,7 @@ int execute(char **command, char **path_directories);
 char **split_string(char *str);
 
 void execute_command(char *command);
-void exit_shell(void);
+void exit_shell(char **args);
 
 char *read_input(FILE *input_stream);
 char **split_input(char *input);

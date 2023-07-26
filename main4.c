@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
 				execute_logical_operations(args);
 			}
 
+
 		}
 		if (argc > 1)
 		{
@@ -113,7 +114,7 @@ int main(int argc, char *argv[])
  */
 void execute_exit(void)
 {
-	exit(EXIT_SUCCESS);
+	exit(0);
 }
 /**
  * exec_function - handle arguemnts
@@ -123,7 +124,7 @@ void exec_function(char **args)
 {
 	if (strcmp(args[0], "exit") == 0)
 	{
-		execute_exit();
+		exit_shell(args);
 	}
 	if (strcmp(args[0], "env") == 0)
 	{
