@@ -6,7 +6,6 @@ void exit_shell(char **args)
 {
 	if (args[1] == NULL)
 	{
-		printf("Exiting the shell...\n");
 		exit(EXIT_SUCCESS);
 	}
 	else
