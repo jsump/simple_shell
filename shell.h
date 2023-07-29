@@ -24,6 +24,7 @@ int _putchar(char c);
 void display_prompt(void);
 void print_environment(void);
 int execute(char **command, char **path_directories);
+int execute_1(char **command, char **path_directories);
 char **split_string(char *str);
 
 void execute_command(char *command);
