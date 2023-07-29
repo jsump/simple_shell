@@ -1,6 +1,7 @@
 #include "shell.h"
 
 int compare_env_vars(const void *a, const void *b);
+
 /**
  * print_environment - print current environment
  */
@@ -31,16 +32,20 @@ void print_environment(void)
 
 	for (i = 0; i < count; i++)
 	{
-		printf("%s\n", env_vars[i]);
+		write(STDOUT_FILENO, env_vars[i], strlen(env_vars[i]));
+		write(STDOUT_FILENO, "\n", 1);
 	}
 	free(env_vars);
 }
+
 /**
- * compare_env_vars - sorting env variables in alph order
+ * compare_env_vars - sorting env variables in alphabetical order
  * @a: first element
  * @b: second element
+ *
+ * Return: negative value if a < b, positive value if a > b, 0 if a == b
  */
 int compare_env_vars(const void *a, const void *b)
 {
-    return strcmp(*(const char **)b, *(const char **)a);
+	return (strcmp(*(const char **)a, *(const char **)b));
 }

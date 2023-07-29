@@ -1,9 +1,15 @@
 #include "shell.h"
+
+int execute_single_command(char **command);
+int execute_path_commands(char **command, char **path_directories);
+int execute(char **command, char **path_directories);
+char *create_full_path(const char *directory, const char *command);
+
 /**
-* execute_single_command - Execute a single command(absolute or relative)
-* @command: The command to execute.
-* Return: 1 on success, 0 on failure.
-*/
+ * execute_single_command - Execute a single command (absolute or relative)
+ * @command: The command to execute.
+ * Return: 1 on success, 0 on failure.
+ */
 int execute_single_command(char **command)
 {
 	int status;
@@ -31,7 +37,7 @@ int execute_single_command(char **command)
 
 		if (feof(stdin))
 		{
-			printf("\n");
+			write(STDOUT_FILENO, "\n", 1);
 			exit(EXIT_SUCCESS);
 		}
 		return (1);
@@ -39,27 +45,27 @@ int execute_single_command(char **command)
 }
 
 /**
-* execute_path_commands - Execute a command by searching through path dirs.
-* @command: The command to execute.
-* @path_directris: Array of path directories.
-* Return: 1 on success, 0 on failure.
-*/
-int execute_path_commands(char **command, char **path_directris)
+ * execute_path_commands - Execute a command by searching
+ * through path directories.
+ * @command: The command to execute.
+ * @path_directories: Array of path directories.
+ * Return: 1 on success, 0 on failure.
+ */
+int execute_path_commands(char **command, char **path_directories)
 {
 	int j, status;
 	char *full_path;
 	pid_t pid = fork();
 
-	for (j = 0; path_directris[j] != NULL; j++)
+	for (j = 0; path_directories[j] != NULL; j++)
 	{
-		full_path = create_full_path(path_directris[j], command[0]);
-		
+		full_path = create_full_path(path_directories[j], command[0]);
+
 		if (!full_path)
 		{
 			perror("malloc failed");
 			exit(EXIT_FAILURE);
 		}
-		sprintf(full_path, "%s/%s", path_directris[j], command[0]);
 
 		if (pid == 0)
 		{
@@ -84,22 +90,22 @@ int execute_path_commands(char **command, char **path_directris)
 
 			if (feof(stdin))
 			{
-				printf("\n");
+				write(STDOUT_FILENO, "\n", 1);
 				exit(EXIT_SUCCESS);
 			}
 			return (1);
 		}
 	}
-	fprintf(stderr, "Command no found\n");
+	write(STDERR_FILENO, "Command not found\n", 18);
 	return (0);
 }
 
 /**
-* execute - Execute a command.
-* @command: The command to execute.
-* @path_directories: Array of path directories.
-* Return: 1 on success, 0 on failure.
-*/
+ * execute - Execute a command.
+ * @command: The command to execute.
+ * @path_directories: Array of path directories.
+ * Return: 1 on success, 0 on failure.
+ */
 int execute(char **command, char **path_directories)
 {
 	int i = 0;
@@ -111,6 +117,7 @@ int execute(char **command, char **path_directories)
 			i++;
 			continue;
 		}
+		i++;
 	}
 
 	if (command[i] == NULL)
@@ -127,6 +134,7 @@ int execute(char **command, char **path_directories)
 		return (execute_path_commands(command + i, path_directories));
 	}
 }
+
 /**
  * create_full_path - Create the full path for a given command and directory.
  * @directory: The directory to append.

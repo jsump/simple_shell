@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
 			i++;
 		}
 		args[i] = NULL;
-
 		pid = fork();
+
 		if (pid == -1)
 		{
 			perror("fork failed");
@@ -90,11 +90,12 @@ int main(int argc, char *argv[])
 				free(args[i]);
 				i++;
 			}
-			free(buffer);
 			if (buffer[0] != '\0')
 			{
 				execute_logical_operations(args);
 			}
+
+
 		}
 		if (argc > 1)
 		{

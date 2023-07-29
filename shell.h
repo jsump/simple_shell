@@ -43,7 +43,7 @@ void my_fork(void);
 void exec_function(char **args);
 void fork_handle(char **args, int status);
 
-int own_getline(char **lp, size_t *n);
+ssize_t own_getline(char **lp, size_t *n, FILE *stream);
 
 char **get_path_directories(void);
 void free_path_directories(char **directories);
@@ -59,4 +59,3 @@ char **get_path_directories(void);
 char *get_full_path(const char *command);
 
 #endif
-
